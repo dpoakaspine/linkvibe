@@ -15,19 +15,70 @@
     </div>
   </body>
 
+
   <script>
   $(function() {
 
   var userid = window.location.hash.substring(1);
   console.log('userid: '+userid);
 
-  var appdb = new Firebase("https://dpoakaspinechromext.firebaseio.com/user/"+userid+"/saves/eat/");
+  var appdb = new Firebase("https://dpoakaspinechromext.firebaseio.com/user/"+userid+"/saves/");
 
-  appdb.on("child_added", function(snap) {
+  /*
+  for(var index in appdb) {
+      var attr = appdb[index];
+      console.log(attr);
+  }
+
+
+  appdb.on("value", function(snap) {
+      console.log('new record', snap.key());
+      var ssnap = snap.val();
+      //alert( ssnap.url );
+      console.log(ssnap);
+      $('#save').append('<li><h2>'+snap.key()+'</h2></li>');
+  });
+  */
+
+  /*
+  appdb.on("value", function(snap) {
       console.log('new record', snap.key());
       var ssnap = snap.val();
       //alert( ssnap.url );
       $('#save').append('<li><a target="_blank" href="'+ssnap.url+'">'+ssnap.title+'</a></li>');
+  });
+  */
+
+  appdb.once("value", function(snapshot) {
+
+    //$('#save li').hide();
+
+    // The callback function will get called twice, once for "fred" and once for "barney"
+    snapshot.forEach(function(childSnapshot) {
+      console.log(childSnapshot.key());
+      $('#save').append('<li><h2>'+childSnapshot.key()+'</h2></li>');
+      // key will be "fred" the first time and "barney" the second time
+      var key = childSnapshot.key();
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+      console.log(childData);
+      var linkdb = new Firebase("https://dpoakaspinechromext.firebaseio.com/user/"+userid+"/saves/"+key+"/");
+      linkdb.on("value", function(linksnapshot) {
+          //console.log(linksnapshot.val());
+          var link = linksnapshot.val();
+          console.log(link);
+          //$('#save').append('<li><a target="_blank" href="'+link.url+'">'+link.title+'</a></li>');
+      });
+
+      for(var index in childData) {
+          var link = childData[index];
+          $('#save').append('<li><a target="_blank" href="'+link.url+'">'+link.title+'</a></li>');
+          console.log(link);
+      }
+
+
+      //console.log(childData);
+    });
   });
 
   });
