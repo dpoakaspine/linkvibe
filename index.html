@@ -4,13 +4,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <script src="lib/zepto.min.js"></script>
     <script src="lib/animate.js"></script>
+    <script src="lib/data.js"></script>
     <script src="lib/firebase.js"></script>
   </head>
 
   <body>
     <div class="container">
      <ul id="save">
-      <li>coming soon...</li>
+
     </ul>
     </div>
   </body>
@@ -72,13 +73,36 @@
 
       for(var index in childData) {
           var link = childData[index];
-          $('#save').append('<li><a target="_blank" href="'+link.url+'">'+link.title+'</a></li>');
-          console.log(link);
-      }
 
+          var a = document.createElement('a');
+          a.href = link.url;
+          var domain = a.hostname;
+
+
+          $('#save').append('<li class=""><a target="_blank" data-action="'+ key +'" data-item="'+ index +'" href="'+link.url+'"><i class="fa fa-check delete"></i> &nbsp;<img src="http://www.google.com/s2/favicons?domain='+domain+'" class="favicon grey" height="15" /> '+link.title+'</a></li>');
+          console.log(index);
+
+      }
 
       //console.log(childData);
     });
+
+    $('.delete').on('click', function(e) {
+        $(this).parent().parent().addClass('checked');
+        $(this).removeClass('fa-check delete').addClass('fa-flag');
+        var index = $(this).parent().data('item');
+        var action = $(this).parent().data('action');
+        var deletedb = new Firebase("https://dpoakaspinechromext.firebaseio.com/user/"+userid+"/saves/"+action+"/"+index+"/").remove();
+        return false;
+        e.preventDefault;
+    });
+
+    $('#save li a').on('mouseenter', function(e) {
+        $(this).find('.favicon').removeClass("grey");
+    }).on('mouseleave', function(e) {
+        $(this).find('.favicon').addClass("grey");
+    });
+
   });
 
   });

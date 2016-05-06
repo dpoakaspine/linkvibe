@@ -1,0 +1,34 @@
+{
+  "search_string": {
+   "message": "hello%20world",
+   "description": "The string we search for. Put %20 between words that go together."
+ },
+ "extension_name": {
+  "message": "This is an extension",
+  "description": ""
+  },
+  "do": {
+   "message": "do",
+   "description": ""
+  },
+  "eat": {
+   "message": "eat",
+   "description": ""
+  },
+  "buy": {
+   "message": "buy",
+   "description": ""
+ },
+ "watch": {
+  "message": "watch",
+  "description": ""
+},
+"read": {
+ "message": "read",
+ "description": ""
+},
+"listen": {
+ "message": "listen",
+ "description": ""
+}
+}

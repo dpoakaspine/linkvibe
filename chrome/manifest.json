@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "Example Chrome Extension",
+  "description": "",
+  "default_locale": "en",
+  "version": "0.0.1",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "background": {
+    "scripts": ["/src/background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://google.com/*"],
+      "js": ["/lib/firebase.js", "/lib/zepto.min.js", "/lib/animate.js", "/src/content.js"],
+      "all_frames": true
+    }
+  ],
+  "browser_action": { "default_popup": "/src/popup.html" },
+  "permissions": ["*://google.com/*","*://berliner-hilfe.de/*","contextMenus","tabs","storage"],
+  "content_security_policy": "script-src 'self' https://cdn.mxpnl.com; object-src 'self'"
+}
